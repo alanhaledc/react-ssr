@@ -1,0 +1,1 @@
+export const CHANGE_IS_LOGIN = 'HEADER/CHANGE_IS_LOGIN'
