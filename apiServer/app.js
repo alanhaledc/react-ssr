@@ -8,23 +8,23 @@ const fs = require('fs')
 const translationsData = require('./translations')
 
 const app = new Koa()
-const router = new Router({prefix: '/ssr'})
+const router = new Router({ prefix: '/ssr' })
 
 app.use(serve(path.join(__dirname, 'static')))
 app.use(logger())
 
 router.get('/api/login.json', async ctx => {
-  fs.writeFileSync('./static/ssr/api/isLogin.json', '{"success":true,"data": {"isLogin": true}}', 'utf-8')
+  fs.writeFileSync(path.join(__dirname, './static/ssr/api/isLogin.json'), '{"success":true,"data": {"isLogin": true}}', 'utf-8')
   ctx.cookies.set('isLogin', true, {
     path: '/',
     maxAge: 86400000,
     httpOnly: false
   })
-  ctx.body = fs.readFileSync('./static/ssr/api/isLogin.json', 'utf-8')
+  ctx.body = fs.readFileSync(path.join(__dirname, './static/ssr/api/isLogin.json'), 'utf-8')
 })
 
 router.get('/api/logout.json', async ctx => {
-  fs.writeFileSync('./static/ssr/api/isLogin.json', '{"success":true,"data": {"isLogin": false}}', 'utf-8')
+  fs.writeFileSync(path.join(__dirname, './static/ssr/api/isLogin.json'), '{"success":true,"data": {"isLogin": false}}', 'utf-8')
   ctx.cookies.set('isLogin', '', {
     path: '/',
     maxAge: -1
@@ -38,7 +38,7 @@ router.get('/api/logout.json', async ctx => {
 })
 
 router.get('/api/translations.json', async ctx => {
-  const data = await fs.readFileSync('./static/ssr/api/isLogin.json', 'utf-8')
+  const data = await fs.readFileSync(path.join(__dirname, './static/ssr/api/isLogin.json'), 'utf-8')
   const isLogin = JSON.parse(data).data.isLogin
   if (!isLogin) {
     ctx.body = {
