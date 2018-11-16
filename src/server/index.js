@@ -1,6 +1,6 @@
 import express from 'express'
 import React from 'react'
-import proxy from 'express-http-proxy'
+import proxy from 'http-proxy-middleware'
 import { matchRoutes } from 'react-router-config'
 
 import { render } from './utils'
@@ -17,9 +17,11 @@ app.use(express.static('public'))
 // http://127.0.0.1:4500 + proxyReqPathResolver  代理的完整url
 // http://127.0.0.1:4500/ssr/api/news.json
 
-app.use('/api', proxy('http://127.0.0.1:4500', {
-  proxyReqPathResolver: function (req) {
-    return `/ssr/api${req.url}`
+app.use('/api', proxy({
+  target: 'http://127.0.0.1:4500',
+  changeOrigin: true,
+  pathRewrite: {
+    '^/api': '/ssr/api'
   }
 }))
 
