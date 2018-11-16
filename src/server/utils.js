@@ -1,6 +1,6 @@
 import React from 'react'
 import { renderToString } from 'react-dom/server'
-import { StaticRouter, Route } from 'react-router-dom'
+import { StaticRouter } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 import { Provider } from 'react-redux'
 import { Helmet } from 'react-helmet'

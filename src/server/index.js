@@ -1,6 +1,5 @@
 import express from 'express'
 import React from 'react'
-import { renderToString } from 'react-dom/server'
 import proxy from 'express-http-proxy'
 import { matchRoutes } from 'react-router-config'
 
