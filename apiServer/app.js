@@ -1,62 +1,82 @@
-const Koa = require('koa')
-const Router = require('koa-router')
-const serve = require('koa-static')
-const logger = require('koa-logger')
-const path = require('path')
-const fs = require('fs')
+const express = require('express')
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const { news, translationNews } = require('./data')
 
-const translationsData = require('./translations')
+const app = express()
+const router = express.Router()
+let isLogin = false
 
-const app = new Koa()
-const router = new Router({ prefix: '/ssr' })
-
-app.use(serve(path.join(__dirname, 'static')))
-app.use(logger())
-
-router.get('/api/login.json', async ctx => {
-  fs.writeFileSync(path.join(__dirname, './static/ssr/api/isLogin.json'), '{"success":true,"data": {"isLogin": true}}', 'utf-8')
-  ctx.cookies.set('isLogin', true, {
-    path: '/',
-    maxAge: 86400000,
-    httpOnly: false
-  })
-  ctx.body = fs.readFileSync(path.join(__dirname, './static/ssr/api/isLogin.json'), 'utf-8')
-})
-
-router.get('/api/logout.json', async ctx => {
-  fs.writeFileSync(path.join(__dirname, './static/ssr/api/isLogin.json'), '{"success":true,"data": {"isLogin": false}}', 'utf-8')
-  ctx.cookies.set('isLogin', '', {
-    path: '/',
-    maxAge: -1
-  })
-  ctx.body = {
-    success: true,
-    data: {
-      logout: true
-    }
-  }
-})
-
-router.get('/api/translations.json', async ctx => {
-  const data = await fs.readFileSync(path.join(__dirname, './static/ssr/api/isLogin.json'), 'utf-8')
-  const isLogin = JSON.parse(data).data.isLogin
-  if (!isLogin) {
-    ctx.body = {
-      success: false
-    }
+// secret 验证中间件
+const secretValidator = (req, res, next) => {
+  if (req.query.secret === '123456') {
+    next()
   } else {
-    ctx.body = {
-      success: true,
-      data: translationsData
-    }
+    res.json({
+      success: false,
+      msg: '验证码错误，请求信息失败'
+    })
   }
+}
+
+// 登录验证器中间件
+const loginValidator = (req, res, next) => {
+  if (req.cookies.isLogin) {
+    next()
+  } else {
+    res.json({
+      success: false,
+      msg: '未登录，请登录获取数据'
+    })
+  }
+}
+
+router.get('/isLogin', (req, res) => {
+  res.json({
+    success: true,
+    data: { isLogin }
+  })
 })
 
-app.use(router.routes()).use(router.allowedMethods())
+router.get('/login', (req, res) => {
+  isLogin = true
+  res.cookie('isLogin', `login` + Date.now())
+  res.json({
+    success: true,
+    data: { isLogin }
+  })
+})
 
-const PORT = 4500
+router.get('/logout', (req, res) => {
+  isLogin = false
+  res.clearCookie('isLogin')
+  res.json({
+    success: true,
+    data: { isLogin }
+  })
+})
 
-app.listen(PORT, err => {
-  if (err) throw err
-  console.log(`Server starting at port: ${PORT}!`)
+router.get('/news', (req, res) => {
+  res.json({
+    success: true,
+    data: news
+  })
+})
+
+router.get('/translations', loginValidator, (req, res) => {
+  res.json({
+    success: true,
+    data: translationNews
+  })
+})
+
+app.use(cors()) // 跨域
+app.use(cookieParser())
+app.use('/ssr/api', secretValidator, router)
+
+const PORT = process.env.PORT || 4500
+
+app.listen(PORT, error => {
+  if (error) throw error
+  console.log(`Server running at http://127.0.0.1:${PORT}`)
 })
