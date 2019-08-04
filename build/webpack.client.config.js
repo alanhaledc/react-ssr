@@ -1,14 +1,14 @@
 const path = require('path')
 const merge = require('webpack-merge')
 
-const baseConfig = require('./webpack.base')
+const baseConfig = require('./webpack.base.config')
 
 module.exports = merge(baseConfig, {
   mode: 'development',
-  entry: './src/client/index.js',
+  entry: path.resolve(__dirname, '../src/client/index.js'),
   output: {
     filename: 'index.js',
-    path: path.resolve(__dirname, 'public')
+    path: path.resolve(__dirname, '../public')
   },
   module: {
     rules: [
@@ -19,9 +19,11 @@ module.exports = merge(baseConfig, {
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 1,
-              modules: true,
-              localIdentName: '[name]_[local]_[hash:base64:5]'
+              modules: {
+                mode: 'local',
+                localIdentName: '[name]_[local]_[hash:base64:5]'
+              },
+              importLoaders: 1
             }
           }
         ]
