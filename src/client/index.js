@@ -9,17 +9,12 @@ import routes from '../routes'
 import { getClientStore } from '../store'
 
 const App = () => {
-
   const store = getClientStore()
 
   return (
-    <Provider store={ store }>
+    <Provider store={store}>
       <BrowserRouter>
-        <div>
-          {
-            renderRoutes(routes)
-          }
-        </div>
+        <div>{renderRoutes(routes)}</div>
       </BrowserRouter>
     </Provider>
   )

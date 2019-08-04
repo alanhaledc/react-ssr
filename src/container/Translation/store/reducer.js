@@ -1,4 +1,4 @@
-import { CHANGE_TRANSLATION_LIST } from './constants'
+import * as types from './types'
 
 const defaultState = {
   translationList: []
@@ -6,8 +6,8 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case CHANGE_TRANSLATION_LIST:
-      return { ...state, translationList: action.value }
+    case types.CHANGE_TRANSLATION_LIST:
+      return { ...state, translationList: action.list }
     default:
       return state
   }

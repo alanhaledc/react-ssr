@@ -1,6 +1,11 @@
 import React, { Component } from 'react'
 
 class NotFound extends Component {
+  componentWillMount() {
+    // 404 页面标示
+    const { staticContext } = this.props
+    staticContext && (staticContext.NOT_FOUND = true)
+  }
 
   render() {
     return (
@@ -9,12 +14,6 @@ class NotFound extends Component {
         <p>Sorry, page not found!</p>
       </div>
     )
-  }
-
-  componentWillMount() {
-    // 404页面标示
-    const { staticContext } = this.props
-    staticContext && (staticContext.NOT_FOUND = true)
   }
 }
 

@@ -6,7 +6,7 @@ import Home from './container/Home'
 import Translation from './container/Translation'
 import NotFound from './container/NotFound'
 
-// 当我加载显示HOME组件之前，我希望调用Home.loadData方法，提前获取到必要的异步数据
+// 加载显示 HOME 组件之前，调用 Home.loadData 方法，提前获取到必要的异步数据
 // 然后再做服务端渲染，把页面返回给客户
 export default [
   {
@@ -35,7 +35,7 @@ export default [
   }
 ]
 
-
+// 组件模式的路由
 // export default (
 //   <div>
 //     <Route path="/" exact component={ Home } />

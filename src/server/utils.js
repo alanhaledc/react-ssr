@@ -5,23 +5,19 @@ import { renderRoutes } from 'react-router-config'
 import { Provider } from 'react-redux'
 import { Helmet } from 'react-helmet'
 
+// 服务端渲染的方法：把组件渲染成字符串
 export const render = (store, routes, req, context) => {
-
   const content = renderToString(
-    <Provider store={ store }>
-      <StaticRouter location={ req.path } context={ context }>
-        <div>
-          {
-            renderRoutes(routes)
-          }
-        </div>
+    <Provider store={store}>
+      <StaticRouter location={req.path} context={context}>
+        <div>{renderRoutes(routes)}</div>
       </StaticRouter>
     </Provider>
   )
 
   const helmet = Helmet.renderStatic()
 
-  // 获取客户端的css字符串
+  // 获取客户端的 css 字符串
   const cssStr = context.css.length ? context.css.join('\n') : ''
 
   return `
@@ -34,10 +30,12 @@ export const render = (store, routes, req, context) => {
         <body>
           <div id="root">${content}</div>
           <script>
+          // 注水
           window.context = {
-            state: ${JSON.stringify(store.getState())}
+            state: ${JSON.stringify(store.getState())} 
           }
           </script>
+          <!-- 引入客户端渲染的 JS 文件 -->
           <script src="./index.js"></script>
         </body>
       </html>

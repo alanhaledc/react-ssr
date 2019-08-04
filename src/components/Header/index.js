@@ -20,23 +20,33 @@ const mapDispatch = dispatch => ({
 })
 
 @withStyle(styles)
-@connect(mapState, mapDispatch)
+@connect(
+  mapState,
+  mapDispatch
+)
 class Header extends Component {
-
   render() {
     const { isLogin, handleLogout, handleLogin } = this.props
 
     return (
-      <div className={ styles.container }>
-        <Link to="/" className={styles.item}>首页</Link>
-        {
-          isLogin
-            ? <Fragment>
-              <Link to="translation" className={styles.item}>翻译列表</Link>
-              <div onClick={ handleLogout } className={styles.item}>退出</div>
-            </Fragment>
-            : <div onClick={ handleLogin } className={styles.item}>登录</div>
-        }
+      <div className={styles.container}>
+        <Link to="/" className={styles.item}>
+          首页
+        </Link>
+        {isLogin ? (
+          <Fragment>
+            <Link to="translation" className={styles.item}>
+              翻译列表
+            </Link>
+            <div onClick={handleLogout} className={styles.item}>
+              退出
+            </div>
+          </Fragment>
+        ) : (
+          <div onClick={handleLogin} className={styles.item}>
+            登录
+          </div>
+        )}
       </div>
     )
   }

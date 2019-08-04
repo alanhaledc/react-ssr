@@ -1,22 +1,17 @@
-import { CHANGE_TRANSLATION_LIST } from './constants'
+import * as types from './types'
 
-const changeTranslationList = value => ({
-  type: CHANGE_TRANSLATION_LIST,
-  value
+const changeTranslationList = list => ({
+  type: types.CHANGE_TRANSLATION_LIST,
+  list
 })
 
-
-export const getTranslationList = () => {
-  return (dispatch, getState, axiosInstance) => {
-    return axiosInstance.get('/api/translations.json')
-      .then(res => {
-        if (res.data.success) {
-          const list = res.data.data
-          dispatch(changeTranslationList(list))
-        } else {
-          const list = []
-          dispatch(changeTranslationList(list))
-        }
-      })
-  }
-}
+export const getTranslationList = () => (dispatch, getState, axiosInstance) =>
+  axiosInstance.get('/api/translations').then(res => {
+    if (res.data.success) {
+      const list = res.data.data
+      dispatch(changeTranslationList(list))
+    } else {
+      const list = []
+      dispatch(changeTranslationList(list))
+    }
+  })

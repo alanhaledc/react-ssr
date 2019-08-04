@@ -2,11 +2,11 @@ import axios from 'axios'
 
 import config from '../config'
 
-const instance = axios.create({
+const clientAxiosInstance = axios.create({
   baseURL: '/',
   params: {
     secret: config.secret
   }
 })
 
-export default instance
+export default clientAxiosInstance

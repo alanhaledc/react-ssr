@@ -1,4 +1,4 @@
-import { CHANGE_IS_LOGIN } from './constants'
+import * as types from './types'
 
 const defaultState = {
   isLogin: false
@@ -6,7 +6,7 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case CHANGE_IS_LOGIN:
+    case types.CHANGE_LOGIN_STATUS:
       return { ...state, isLogin: action.value }
     default:
       return state

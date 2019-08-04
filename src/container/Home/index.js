@@ -17,31 +17,29 @@ const mapDispatch = dispatch => ({
 })
 
 @withStyle(styles)
-@connect(mapState, mapDispatch)
+@connect(
+  mapState,
+  mapDispatch
+)
 class Home extends Component {
-
   render() {
     const { newsList } = this.props
 
-    const getList = () => {
-      return newsList.map(item => (
-        <div className={ styles.item } key={ item.id }>{ item.title }</div>
+    const getList = () =>
+      newsList.map(item => (
+        <div className={styles.item} key={item.id}>
+          {item.title}
+        </div>
       ))
-    }
 
     return (
       <Fragment>
         <Helmet>
           <title>这是一个SSR新闻页面 - 丰富多彩的资讯</title>
-          <meta name="description" content="这是一个SSR新闻页面"/>
+          <meta name="description" content="这是一个SSR新闻页面" />
         </Helmet>
-        <div className={ styles.container }>
-          {
-            getList()
-          }
-        </div>
+        <div className={styles.container}>{getList()}</div>
       </Fragment>
-
     )
   }
 
@@ -53,9 +51,8 @@ class Home extends Component {
   }
 }
 
-Home.loadData = store => {
-  // 这个函数负责在服务器渲染之前，把这个路由需要的数据提前加载好
-  return store.dispatch(actions.getHomeList())
-}
+// 这个函数负责在服务器渲染之前，把这个路由需要的数据提前加载好
+// 返回一个 promise 对象
+Home.loadData = store => store.dispatch(actions.getHomeList())
 
 export default Home

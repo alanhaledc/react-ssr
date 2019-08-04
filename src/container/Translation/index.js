@@ -19,9 +19,11 @@ const mapDispatch = dispatch => ({
 })
 
 @withStyle(styles)
-@connect(mapState, mapDispatch)
+@connect(
+  mapState,
+  mapDispatch
+)
 class Translation extends Component {
-
   render() {
     const { translationList, isLogin } = this.props
 
@@ -31,14 +33,16 @@ class Translation extends Component {
           <title>这是一个SSR翻译页面 - 丰富多彩的资讯</title>
           <meta name="description" content="这是一个SSR翻译页面" />
         </Helmet>
-        <div className={ styles.container }>
-          {
-            isLogin
-              ? translationList.map(item => (
-                <div className={ styles.item } key={ item.id }>{ item.title }</div>
-              ))
-              : <Redirect to="/" />
-          }
+        <div className={styles.container}>
+          {isLogin ? (
+            translationList.map(item => (
+              <div className={styles.item} key={item.id}>
+                {item.title}
+              </div>
+            ))
+          ) : (
+            <Redirect to="/" />
+          )}
         </div>
       </Fragment>
     )
@@ -49,8 +53,6 @@ class Translation extends Component {
   }
 }
 
-Translation.loadData = store => {
-  return store.dispatch(actions.getTranslationList())
-}
+Translation.loadData = store => store.dispatch(actions.getTranslationList())
 
 export default Translation

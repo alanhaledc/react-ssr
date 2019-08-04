@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default styles => {
+const withStyle = styles => {
   return DecorateComponent => {
     return class WithStyle extends Component {
       componentWillMount() {
@@ -10,8 +10,10 @@ export default styles => {
       }
 
       render() {
-        return <DecorateComponent { ...this.props } />
+        return <DecorateComponent {...this.props} />
       }
     }
   }
 }
+
+export default withStyle

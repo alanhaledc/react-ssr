@@ -1,37 +1,30 @@
-import { CHANGE_IS_LOGIN } from './constants'
+import * as types from './types'
 
-const changeIsLogin = value => ({
-  type: CHANGE_IS_LOGIN,
+const changeLoginStatus = value => ({
+  type: types.CHANGE_LOGIN_STATUS,
   value
 })
 
-export const getHeaderInfo = () => {
-  return (dispatch, getState, axiosInstance) => {
-    return axiosInstance.get('/api/isLogin.json')
-      .then(res => {
-        const isLogin = res.data.data.isLogin
-        dispatch(changeIsLogin(isLogin))
-      })
-  }
-}
+export const getHeaderInfo = () => (dispatch, getState, axiosInstance) =>
+  axiosInstance.get('/api/isLogin').then(res => {
+    if (res.data.success) {
+      const isLogin = res.data.data.isLogin
+      dispatch(changeLoginStatus(isLogin))
+    }
+  })
 
-export const login = () => {
-  return (dispatch, getState, axiosInstance) => {
-    return axiosInstance.get('/api/login.json')
-      .then(res => {
-        const isLogin = res.data.data.isLogin
-        dispatch(changeIsLogin(isLogin))
-      })
-  }
-}
+export const login = () => (dispatch, getState, axiosInstance) =>
+  axiosInstance.get('/api/login').then(res => {
+    if (res.data.success) {
+      const isLogin = res.data.data.isLogin
+      dispatch(changeLoginStatus(isLogin))
+    }
+  })
 
-export const logout = () => {
-  return (dispatch, getState, axiosInstance) => {
-    return axiosInstance.get('/api/logout.json')
-      .then(res => {
-        if (res.data.success) {
-          dispatch(changeIsLogin(false))
-        }
-      })
-  }
-}
+export const logout = () => (dispatch, getState, axiosInstance) =>
+  axiosInstance.get('/api/logout').then(res => {
+    if (res.data.success) {
+      const isLogin = res.data.data.isLogin
+      dispatch(changeLoginStatus(isLogin))
+    }
+  })
