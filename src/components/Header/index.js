@@ -35,7 +35,7 @@ class Header extends Component {
         </Link>
         {isLogin ? (
           <Fragment>
-            <Link to="translation" className={styles.item}>
+            <Link to="/translation" className={styles.item}>
               翻译列表
             </Link>
             <div onClick={handleLogout} className={styles.item}>

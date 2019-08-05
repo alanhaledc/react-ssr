@@ -1,19 +1,15 @@
 import React, { Component } from 'react'
 
-const withStyle = styles => {
-  return DecorateComponent => {
-    return class WithStyle extends Component {
-      componentWillMount() {
-        if (this.props.staticContext) {
-          this.props.staticContext.css.push(styles._getCss())
-        }
-      }
-
-      render() {
-        return <DecorateComponent {...this.props} />
+export default styles => DecorateComponent =>
+  class WithStyle extends Component {
+    componentWillMount() {
+      if (this.props.staticContext) {
+        // 把样式注入到 context 中
+        this.props.staticContext.css.push(styles._getCss())
       }
     }
-  }
-}
 
-export default withStyle
+    render() {
+      return <DecorateComponent {...this.props} />
+    }
+  }

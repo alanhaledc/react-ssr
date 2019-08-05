@@ -5,7 +5,7 @@ const changeLoginStatus = value => ({
   value
 })
 
-export const getHeaderInfo = () => (dispatch, getState, axiosInstance) =>
+export const getLoginStatus = () => (dispatch, getState, axiosInstance) =>
   axiosInstance.get('/api/isLogin').then(res => {
     if (res.data.success) {
       const isLogin = res.data.data.isLogin

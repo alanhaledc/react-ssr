@@ -56,13 +56,14 @@ app.get('*', function(req, res) {
   const promises = []
 
   // 一个页面要加载 A,B,C,D 四个组件，这四个组件需要服务器加载数据
-  // 假如 A 组件加载错误
-  // B, C, D 组件有几种情况
+  // 假如 A 组件加载错误，B, C, D 组件有几种情况
   // 1. B, C, D 组件已经加载完成了
   // 2. 假如 B, C, D 组件接口比较慢，B, C, D 组件数据没有加载完成
+  // 不管是哪种情况，都要获取能加载成功的数据，不能被 A 组件错误的加载干扰
   matchedRoutes.forEach(item => {
     if (item.route.loadData) {
       // 重新封装 promise 对象，增加捕获错误处理
+      // 不管成功失败都 resolve，不影响其他的 promise
       const promise = new Promise((resolve, reject) => {
         item.route
           .loadData(store)

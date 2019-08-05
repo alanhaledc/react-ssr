@@ -14,7 +14,8 @@ export const render = (store, routes, req, context) => {
       </StaticRouter>
     </Provider>
   )
-
+  
+  // helmet 服务端渲染配置
   const helmet = Helmet.renderStatic()
 
   // 获取客户端的 css 字符串
