@@ -49,7 +49,9 @@ class Translation extends Component {
   }
 
   componentDidMount() {
-    this.props.getTranslationList()
+    if (!this.props.translationList.length) {
+      this.props.getTranslationList()
+    }
   }
 }
 
