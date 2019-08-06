@@ -1,15 +1,9 @@
-import React, { Component } from 'react'
+// 使用 react hook 后，复用组件代码使用函数，不使用高阶组件了
 
-export default styles => DecorateComponent =>
-  class WithStyle extends Component {
-    componentWillMount() {
-      if (this.props.staticContext) {
-        // 把样式注入到 context 中
-        this.props.staticContext.css.push(styles._getCss())
-      }
-    }
-
-    render() {
-      return <DecorateComponent {...this.props} />
-    }
+const withStyle = (staticContext, styles) => {
+  if (staticContext) {
+    staticContext.css.push(styles._getCss())
   }
+}
+
+export default withStyle
