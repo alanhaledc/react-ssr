@@ -13,7 +13,7 @@
     "prod": "yarn prod:build:client && yarn prod:build:server && node ./dist/bundle.js",
     "start:dev": "concurrently \"yarn dev\" \"yarn server:api\"",
     "start:prod": "concurrently \"yarn prod\" \"yarn server:api\"",
-    "server:api": "nodemon apiServer/app.js"
+    "server:api": "nodemon api-server/app.js"
   },
   "dependencies": {
     "axios": "^0.18.1",
