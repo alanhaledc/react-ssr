@@ -3,8 +3,10 @@ const merge = require('webpack-merge')
 
 const baseConfig = require('./webpack.base.config')
 
+const isProd = process.env.NODE_ENV === 'production'
+
 module.exports = merge(baseConfig, {
-  mode: 'development',
+  mode: isProd ? 'production' : 'development',
   entry: path.resolve(__dirname, '../src/client/index.js'),
   output: {
     filename: 'index.js',
@@ -13,7 +15,7 @@ module.exports = merge(baseConfig, {
   module: {
     rules: [
       {
-        test: /\.css?$/,
+        test: /\.(scss|css)$/,
         use: [
           'style-loader',
           {
@@ -25,7 +27,14 @@ module.exports = merge(baseConfig, {
               },
               importLoaders: 1
             }
-          }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true
+            }
+          },
+          'sass-loader'
         ]
       }
     ]
