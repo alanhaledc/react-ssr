@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { actions } from './store'
-import styles from './style.css'
+import styles from './style.scss'
 import withStyle from '../../withStyle'
 
 const mapStateToProps = state => ({

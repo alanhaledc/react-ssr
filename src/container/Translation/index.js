@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 
 import { actions } from './store'
 import withStyle from '../../withStyle'
-import styles from '../Translation/style.css'
+import styles from './style.scss'
 import { Helmet } from 'react-helmet'
 
 const mapStateToProps = state => ({

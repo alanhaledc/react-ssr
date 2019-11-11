@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Helmet } from 'react-helmet'
 
 import { actions } from './store/'
-import styles from './style.css'
+import styles from './style.scss'
 import withStyle from '../../withStyle'
 
 const mapStateToProps = state => ({
